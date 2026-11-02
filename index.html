@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rosa's Cafe</title>
+<meta name="description" content="一个朴素的西方哲学写作园地：从米利都学派到现象学，重述问题，而非复述结论。">
+<meta name="author" content="站长">
+<link rel="stylesheet" href="assets/site.css">
+<!-- 首屏前锁定配色，避免闪白 -->
+<script>
+  try {
+    var saved = localStorage.getItem("ink-paper-theme");
+    if (saved === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  } catch (e) {}
+</script>
+</head>
+<body data-page="home">
+
+<div data-site-header></div>
+
+<main id="main" class="page page--home">
+
+  <div data-recent-posts></div>
+
+  <p class="home__more">
+    <a href="archive.html">All posts <span data-total-count>0</span> →</a>
+    　·　
+    <a href="topics.html">Categories</a>
+    　·　
+    <a href="write.html">Journal</a>
+  </p>
+
+</main>
+
+<div data-site-footer></div>
+
+<script src="assets/index.js"></script>
+<script src="assets/render.js"></script>
+</body>
+</html>
