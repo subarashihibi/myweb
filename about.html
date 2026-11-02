@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>留言板 · Rosa's Cafe</title>
+<meta name="description" content="留言板：写信说明对某篇论证的异议，或指出一处错误。">
+<link rel="stylesheet" href="assets/site.css">
+<script>
+  try {
+    var saved = localStorage.getItem("ink-paper-theme");
+    if (saved === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  } catch (e) {}
+</script>
+</head>
+<body data-page="about">
+
+<div data-site-header></div>
+
+<main id="main" class="page">
+
+  <section class="page-head">
+    <p class="eyebrow">Guestbook</p>
+  </section>
+
+  <div class="notice">
+    <p class="notice__title">留言板尚未接通</p>
+    <p>本站是纯静态站点，没有后台与数据库，因此这一页目前只是版式。
+      想真正收到留言，可把下面的邮箱换成你自己的，或接一个第三方评论服务
+      （如 Waline、Giscus）。要改站名与页脚署名，编辑
+      <code>assets/index.js</code> 顶部的 <code>SITE</code> 对象。</p>
+  </div>
+
+  <h2 class="section-title">留言</h2>
+  <p>
+    写信给我：<a href="mailto:you@example.com">you@example.com</a>。
+    如果打算谈某篇文章，请在开头写明篇名，这样便于对照原文。
+  </p>
+
+</main>
+
+<div data-site-footer></div>
+
+<script src="assets/index.js"></script>
+<script src="assets/render.js"></script>
+</body>
+</html>

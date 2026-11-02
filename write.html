@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>写作台 · Rosa's Cafe</title>
+<meta name="description" content="Markdown 草稿、实时预览，一键生成可放入 posts/ 的完整 HTML 文章。">
+<link rel="stylesheet" href="assets/site.css">
+<script>
+  try {
+    var saved = localStorage.getItem("ink-paper-theme");
+    if (saved === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  } catch (e) {}
+</script>
+</head>
+<body data-page="write">
+
+<div data-site-header></div>
+
+<main id="main" class="editor">
+
+  <section class="page-head page-head--wide">
+    <p class="eyebrow">Writing Desk</p>
+  </section>
+
+  <div class="editor__bar">
+    <button type="button" class="primary" id="btn-generate">生成 HTML</button>
+    <button type="button" id="btn-copy">复制 HTML</button>
+    <button type="button" id="btn-download">下载 .md</button>
+    <button type="button" class="ghost" id="btn-save">保存草稿</button>
+    <button type="button" class="ghost" id="btn-reset">清空</button>
+    <span class="spacer"></span>
+    <span class="editor__hint" id="counter">—</span>
+  </div>
+
+  <section class="editor__fields" aria-label="文章信息">
+    <label class="field">
+      <span>标题</span>
+      <input type="text" id="f-title" placeholder="如：康德的哥白尼式革命" autocomplete="off">
+    </label>
+    <label class="field">
+      <span>日期</span>
+      <input type="text" id="f-date" placeholder="2026-03-01" autocomplete="off">
+    </label>
+    <label class="field">
+      <span>主题（一个）</span>
+      <input type="text" id="f-category" list="category-options" placeholder="如：认识论" autocomplete="off">
+      <datalist id="category-options">
+        <option value="形而上学"></option>
+        <option value="认识论"></option>
+        <option value="伦理学"></option>
+        <option value="政治哲学"></option>
+        <option value="逻辑与语言"></option>
+        <option value="美学"></option>
+        <option value="站点文档"></option>
+      </datalist>
+    </label>
+    <label class="field">
+      <span>标签（逗号分隔）</span>
+      <input type="text" id="f-tags" placeholder="康德, 先验, 知识论" autocomplete="off">
+    </label>
+    <label class="field field--wide">
+      <span>文件名（不含 .html）</span>
+      <input type="text" id="f-slug" placeholder="kant-copernican-turn" autocomplete="off">
+    </label>
+    <label class="field field--wide">
+      <span>提要（一两句话）</span>
+      <input type="text" id="f-summary" placeholder="这篇处理什么问题，沿着哪条线索推进。" autocomplete="off">
+    </label>
+  </section>
+
+  <div class="editor__grid">
+    <div class="editor__pane">
+      <p class="editor__pane-label">Markdown 草稿</p>
+      <textarea id="md" spellcheck="false" aria-label="Markdown 草稿"></textarea>
+    </div>
+    <div class="editor__pane">
+      <p class="editor__pane-label">排版预览</p>
+      <div class="md-preview" id="preview" aria-label="排版预览"></div>
+    </div>
+  </div>
+
+  <section class="editor__out">
+    <p class="editor__pane-label">生成结果 · 可直接放入 posts/ 的完整 HTML</p>
+    <textarea id="out" spellcheck="false" readonly aria-label="生成的 HTML"></textarea>
+    <p class="editor__hint" id="out-hint">点「生成 HTML」后，这里会出现完整文件内容。</p>
+  </section>
+
+  <section class="md-help">
+    <h2 class="section-title">速查</h2>
+    <dl>
+      <dt><code>## 标题</code> / <code>### 标题</code></dt>
+      <dd>站内二级、三级标题，会自动进入右侧目录，并配发丝分隔线。</dd>
+
+      <dt><code>&gt; 引文</code> 与 <code>&gt; —— 出处</code></dt>
+      <dd>以「——」开头的一行会被排成引文出处（小字、非斜体）。</dd>
+
+      <dt><code>&gt;! 引文</code> 与 <code>&gt;! —— 出处</code></dt>
+      <dd>行首用 <code>&gt;!</code> 生成居中题词（epigraph），适合放在文章开头。</dd>
+
+      <dt><code>- 要点</code></dt>
+      <dd>无序列表；<code>1. 要点</code> 为有序列表；缩进两格可嵌套。</dd>
+
+      <dt><code>| 列一 | 列二 |</code></dt>
+      <dd>第一行表头，第二行分隔（<code>| --- |</code>），之后每行一个数据行。</dd>
+
+      <dt><code>[^1]</code> 与 <code>[^1]: 注释</code></dt>
+      <dd>行内脚注与文末注释，样式与站内文章一致。</dd>
+
+      <dt><code>---</code></dt>
+      <dd>单独一行三个短横线，渲染成一枚花星 ❋ 分隔符。</dd>
+
+      <dt><code>**粗体**</code>、<code>*斜体*</code>、<code>`代码`</code>、<code>[链接](网址)</code></dt>
+      <dd>行内格式。链接文本后可用 <code>{:target=_blank}</code> 标记外部链接（会另开窗口）。</dd>
+    </dl>
+
+    <div class="notice">
+      <p class="notice__title">定稿之后</p>
+      <p>把生成的 HTML 完整覆盖到 <code>posts/你的文件名.html</code>，
+      再在 <code>assets/index.js</code> 的 <code>SITE.posts</code> 最前面登记一条记录。
+      详细步骤见 <a href="posts/writing-guide.html">《如何在这里写一篇新文章》</a>。</p>
+    </div>
+  </section>
+
+</main>
+
+<div data-site-footer></div>
+
+<script src="assets/md.js"></script>
+<script src="assets/editor.js"></script>
+<script src="assets/index.js"></script>
+<script src="assets/render.js"></script>
+</body>
+</html>

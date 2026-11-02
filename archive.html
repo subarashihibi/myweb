@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>归档 · Rosa's Cafe</title>
+<meta name="description" content="全部札记，按年份与主题排列，可按关键词检索。">
+<link rel="stylesheet" href="assets/site.css">
+<script>
+  try {
+    var saved = localStorage.getItem("ink-paper-theme");
+    if (saved === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  } catch (e) {}
+</script>
+</head>
+<body data-page="archive">
+
+<div data-site-header></div>
+
+<main id="main" class="page">
+
+  <section class="page-head">
+    <p class="eyebrow">Archive</p>
+  </section>
+
+  <div class="toolbar">
+    <div class="toolbar__group">
+      <label class="toolbar__label" for="q">Search</label>
+      <input type="search" id="q" name="q" placeholder="e.g. Plato, a priori, dialectic" autocomplete="off">
+    </div>
+    <div class="toolbar__group">
+      <label class="toolbar__label" for="year">Year</label>
+      <select id="year"><option value="">All</option></select>
+    </div>
+    <div class="toolbar__group">
+      <label class="toolbar__label" for="category">Category</label>
+      <select id="category"><option value="">All</option></select>
+    </div>
+    <div class="toolbar__group">
+      <button type="button" class="ghost" data-reset>Reset</button>
+    </div>
+    <p class="toolbar__count" data-result-count aria-live="polite"></p>
+  </div>
+
+  <noscript>
+    <div class="notice">
+      <p class="notice__title">提示</p>
+      <p>筛选与检索需要浏览器启用 JavaScript。即使不启用，你仍可打开 <a href="index.html">首页</a> 与各篇文章。</p>
+    </div>
+  </noscript>
+
+  <div data-archive></div>
+
+</main>
+
+<div data-site-footer></div>
+
+<script src="assets/index.js"></script>
+<script src="assets/render.js"></script>
+</body>
+</html>

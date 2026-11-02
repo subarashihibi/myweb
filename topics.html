@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>主题与标签 · Rosa's Cafe</title>
+<meta name="description" content="按主题与标签浏览全部札记：形而上学、认识论、伦理学、政治哲学、逻辑与语言等。">
+<link rel="stylesheet" href="assets/site.css">
+<script>
+  try {
+    var saved = localStorage.getItem("ink-paper-theme");
+    if (saved === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  } catch (e) {}
+</script>
+</head>
+<body data-page="topics">
+
+<div data-site-header></div>
+
+<main id="main" class="page">
+
+  <section class="page-head">
+    <p class="eyebrow">Topics &amp; Tags</p>
+  </section>
+
+  <section class="term-groups">
+    <div class="term-group">
+      <div class="term-group__head">
+        <h2 class="term-group__title">主题</h2>
+        <span class="term-group__count">每篇归入其一</span>
+      </div>
+      <ul class="term-list" data-term-categories></ul>
+    </div>
+    <div class="term-group">
+      <div class="term-group__head">
+        <h2 class="term-group__title">标签</h2>
+        <span class="term-group__count">可多枚并存</span>
+      </div>
+      <ul class="term-list" data-term-tags></ul>
+    </div>
+  </section>
+
+  <section data-term-result hidden>
+    <h2 class="section-title">此条目下的文字</h2>
+    <div data-term-posts></div>
+    <p style="margin-top:1.5rem;font-family:var(--sans);font-size:.78rem">
+      <a href="topics.html">← 回到全部条目</a>
+    </p>
+  </section>
+
+</main>
+
+<div data-site-footer></div>
+
+<script src="assets/index.js"></script>
+<script src="assets/render.js"></script>
+</body>
+</html>
