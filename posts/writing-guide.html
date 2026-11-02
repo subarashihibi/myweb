@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>如何在这里写一篇新文章 · Rosa's Cafe</title>
+<meta name="description" content="这个博客的写作与发布指南：目录结构、登记索引、可用样式、写作习惯与检查清单。">
+<meta name="author" content="站长">
+<link rel="stylesheet" href="../assets/site.css">
+<script>
+  try {
+    var saved = localStorage.getItem("ink-paper-theme");
+    if (saved === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  } catch (e) {}
+</script>
+</head>
+<body data-page="about">
+
+<div data-site-header></div>
+
+<div class="article-shell">
+  <article class="article">
+
+    <header class="article__head">
+      <p class="meta article__meta">
+        <span class="meta__date">Jan 20, 2026</span>
+        <span class="meta__sep">·</span>
+        <a class="chip" href="../topics.html?c=%E7%AB%99%E7%82%B9%E6%96%87%E6%A1%A3">站点文档</a>
+        <a class="chip" href="../topics.html?t=%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E">#使用说明</a>
+        <a class="chip" href="../topics.html?t=%E6%A8%A1%E6%9D%BF">#模板</a>
+        <span class="meta__sep">|</span>
+        <span class="post-meta-item" data-word-count></span>
+      </p>
+
+      <h1 class="article__title">如何在这里写一篇新文章</h1>
+
+      <p class="article__abstract">
+        这个站不使用任何框架与构建工具：一篇文章就是一个 HTML 文件，外加在索引里登记一行。
+        以下是从起草到发布的完整流程，以及可以使用的排版样式清单。
+      </p>
+
+      <hr>
+    </header>
+
+    <div class="article__body" id="article-body">
+
+      <h2 id="structure">一、目录结构</h2>
+
+      <pre><code>.
+├── index.html            首页（近期文章）
+├── archive.html          归档：年份分组、关键词检索、主题与年份筛选
+├── topics.html           主题与标签总览；?c=主题 或 ?t=标签 可筛出篇目
+├── about.html            留言板（Guestbook）＋站点说明
+├── write.html            写作台：Markdown 草稿 → 实时预览 → 生成 HTML
+├── assets/
+│   ├── site.css          全部样式（配色、字体、版式都在这里）
+│   ├── index.js          ★ 站点数据：站名、页脚署名、文章索引
+│   └── render.js         页头页脚注入、主题切换、目录、列表与筛选
+└── posts/
+    ├── _template.html    文章模板（复制它开始新文章）
+    ├── _template.md      纯 Markdown 草稿模板
+    └── writing-guide.html  本页（写作与发布说明）</code></pre>
+
+      <h2 id="new-post">二、写一篇新文章（四步）</h2>
+
+      <h3>第 1 步：起文件名</h3>
+      <p>
+        把 <code>posts/_template.html</code> 复制一份，改成新的文件名。
+        规则：全小写、单词间用连字符、只用 ASCII 字符，文件名就是网址。
+      </p>
+      <ul>
+        <li>✅ <code>kant-copernican-turn.html</code></li>
+        <li>✅ <code>hume-causation.html</code></li>
+        <li>❌ <code>康德.md</code>（中文与空格在网址里会出现乱码）</li>
+      </ul>
+
+      <h3>第 2 步：改模板中标了「⟵ 改这里」的四处</h3>
+      <ol>
+        <li><code>&lt;title&gt;</code> 与 <code>&lt;meta name="description"&gt;</code>：标题与提要，用于浏览器标签与搜索摘要。</li>
+        <li><code>.article__meta</code> 里的日期、主题、标签。</li>
+        <li>正文：在 <code>&lt;div class="article__body" id="article-body"&gt;</code> 内部写内容。</li>
+        <li>文末的上一篇 / 下一篇链接。</li>
+      </ol>
+
+      <h3>第 3 步：在索引里登记一行</h3>
+      <p>
+        打开 <code>assets/index.js</code>，在 <code>SITE.posts</code> 数组的<strong>最前面</strong>
+        插入一条记录（最新的放最上面）。<code>file</code> 必须与第 1 步的文件名完全一致。
+      </p>
+
+      <pre><code>{
+  file: "posts/kant-copernican-turn.html",
+  title: "康德的哥白尼式革命",
+  date: "2026-03-01",                  // 必须是 YYYY-MM-DD
+  category: "认识论",                  // 一篇只归一个主题
+  tags: ["康德", "先验", "知识论"],     // 可多个，显示为 #标签
+  summary: "一句话提要，出现在首页与归档列表里。",
+  words: 1234                        // 字数，见下方说明
+}</code></pre>
+
+      <div class="notice">
+        <p class="notice__title">为什么必须手工登记</p>
+        <p>浏览器出于安全限制，无法从一个用 <code>file://</code> 双击打开的页面里读取目录列表。
+        因此文章索引写在 <code>assets/index.js</code> 里。好处是：站点可以完全离线、双击即用，
+        也能直接丢到任何静态托管上，无需构建。</p>
+      </div>
+
+      <h3>关于字数</h3>
+      <p>
+        文章页与列表里的「N words」取自索引的 <code>words</code> 字段，由
+        <code>assets/render.js</code> 自动填入，<strong>正文里不用手写</strong>。
+        统计口径是「CJK 逐字 + 西文按词」，附录（<code>.footnotes</code>）不计入。
+        改完文章后跑一次自检即可拿到应填的数值：
+      </p>
+      <pre><code>python tools/check.py
+# 若字数对不上，报错信息里会直接给出实际统计值，例如：
+#   字数不一致：posts/xxx.html
+#       索引 index.js：1234
+#       实际统计：1288</code></pre>
+
+      <h3>第 4 步：打开检查</h3>
+      <p>
+        双击 <code>index.html</code>，确认新文章出现在「近期文字」；再点 <code>archive.html</code>
+        下「主题」筛选，确认分类正确。若文章没出现，九成是 <code>file</code> 路径写错或少了逗号。
+      </p>
+
+      <h2 id="markdown">三、用 Markdown 起草</h2>
+      <p>
+        打开 <code>write.html</code>，左侧写 Markdown，右侧实时看到接近成品的排版。
+        它支持标题、引文、列表、表格、脚注、题词、分隔花星与行内强调。
+        定稿后点「生成 HTML」，把生成的片段替换掉模板中 <code>.article__body</code> 里的内容即可。
+      </p>
+      <p>
+        草稿会自动保存在浏览器本地（localStorage），关掉页面也不会丢。
+        也可以点「下载 .md」，把草稿作为 <code>posts/你的文件名.md</code> 留档。
+      </p>
+
+      <h2 id="styles">四、可用的排版样式</h2>
+      <p>全部样式定义在 <code>assets/site.css</code>，下面是哲学写作里最常用的几件。</p>
+
+      <h3>提要与题词</h3>
+      <p>提要（<code>.article__abstract</code>）是文章标题下的摘要，用左侧细线标出；题词（<code>.epigraph</code>）居中、无引号装饰。</p>
+
+      <div class="demo-box">
+        <blockquote class="epigraph">
+          <p>两样东西，越经常越持久地思索，就越使心中充满常新而日增的赞叹与敬畏。</p>
+          <p class="epigraph__source">—— 康德《实践理性批判》结论</p>
+        </blockquote>
+      </div>
+
+      <h3>引文与出处</h3>
+      <p>用 <code>&lt;blockquote&gt;</code> 包住引文，出处放在 <code>&lt;cite&gt;</code> 里，会自动排成小字、非斜体。</p>
+
+      <div class="demo-box">
+        <blockquote>
+          <p>存在者存在，不存在者不存在。</p>
+          <cite>巴门尼德，残篇 DK 28 B 6</cite>
+        </blockquote>
+      </div>
+
+      <h3>术语对照</h3>
+      <p>用 <code>&lt;dl&gt;/&lt;dt&gt;/&lt;dd&gt;</code> 区分容易混淆的一组概念，比表格更适合长解释。</p>
+
+      <div class="demo-box">
+        <dl>
+          <dt>a priori（先天的）</dt>
+          <dd>不依赖经验而成立，如「一切变化都有原因」。</dd>
+          <dt>a posteriori（后天的）</dt>
+          <dd>必须依赖经验才能成立，如「今天下雨」。</dd>
+        </dl>
+      </div>
+
+      <h3>要点框、脚注、分隔符</h3>
+      <ul>
+        <li>要点框：<code>&lt;div class="notice"&gt;</code>，适合放关键主张或待解决问题，一节最多用一次。</li>
+        <li>脚注：正文用 <code>&lt;a class="fn-ref" href="#fn1"&gt;[1]&lt;/a&gt;</code>，文末用 <code>&lt;section class="footnotes"&gt;</code>。</li>
+        <li>分隔符：单独一行的 <code>&lt;hr&gt;</code> 会显示成一枚花星 ❋，用于分隔论证的两种走向。</li>
+        <li>表格：<code>&lt;table&gt;</code> 自带发丝线，适合对比两种立场或列出论证步骤。</li>
+      </ul>
+
+      <h2 id="conventions">五、这个站的内容约定</h2>
+      <ul>
+        <li><strong>一篇一个主题</strong>：主题（category）只能选一个，用于归档归类；其余用标签（tags）叠加，最多四个。</li>
+        <li><strong>引用随文夹注</strong>：古典著作给通行编码（《形而上学》1003a21），现代著作给书名与页码，细节在脚注。</li>
+        <li><strong>术语附原文</strong>：第一次出现的核心术语加括号原文，如 <em>Dasein</em>（此在）、<em>elenchus</em>（诘问）。</li>
+        <li><strong>写清论证而非立场</strong>：至少交代这个主张要解决什么问题、反对者会怎么反驳。</li>
+        <li><strong>长度不设限</strong>：一千五百字到四千字之间读起来最舒服，长文请用小节标题分段，右侧目录会自动生成。</li>
+      </ul>
+
+      <h2 id="customize">六、改成你自己的站</h2>
+      <ul>
+        <li><strong>站名与署名</strong>：<code>assets/index.js</code> 顶部的 <code>SITE</code> 对象：<code>title</code>、<code>tagline</code>、<code>author</code>、<code>email</code>、<code>copyrightFrom</code>。</li>
+        <li><strong>配色</strong>：<code>assets/site.css</code> 开头的 <code>:root</code> 变量。米白底是 <code>--paper</code>，墨色是 <code>--ink</code>，强调色是 <code>--accent</code>；<code>html[data-theme="dark"]</code> 里是夜间配色。</li>
+        <li><strong>字体</strong>：<code>--serif</code> 与 <code>--sans</code> 两个变量，均为系统字体栈，不加载任何外部字体。</li>
+        <li><strong>导航</strong>：<code>assets/render.js</code> 里的 <code>NAV</code> 数组。</li>
+        <li><strong>页脚</strong>：<code>renderFooter()</code> 函数。</li>
+        <li><strong>留言板（Guestbook）页的文字</strong>：改 <code>about.html</code>，并把其中的「留言板尚未接通」提示框删掉或换成真实联系方式。</li>
+      </ul>
+
+      <h2 id="deploy">七、发布到网上</h2>
+      <p>
+        整个目录就是成品，没有构建步骤。任选其一：
+      </p>
+      <ul>
+        <li><strong>GitHub Pages</strong>：把目录推到仓库，Settings → Pages 选分支根目录即可。</li>
+        <li><strong>Netlify / Vercel / Cloudflare Pages</strong>：拖拽整个文件夹上传，秒级完成。</li>
+        <li><strong>任意静态托管或对象存储</strong>：直接上传，无需服务器端程序。</li>
+      </ul>
+      <p>
+        注意：所有内部链接都是相对路径（<code>../assets/…</code>、<code>topics.html?c=…</code>），
+        因此放在子目录（如 <code>example.com/blog/</code>）也能正常工作。
+      </p>
+
+      <div class="notice">
+        <p class="notice__title">写作建议</p>
+        <p>先写提要。如果无法用三句话说明这篇要解决什么，说明问题还没有成形。
+        剩下的部分会快得多。</p>
+      </div>
+
+    </div>
+
+    <footer class="article__foot">
+      <div class="article__tags">
+        <a class="chip" href="../topics.html?c=%E7%AB%99%E7%82%B9%E6%96%87%E6%A1%A3">站点文档</a>
+        <a class="chip" href="../topics.html?t=%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E">#使用说明</a>
+        <a class="chip" href="../topics.html?t=%E6%A8%A1%E6%9D%BF">#模板</a>
+      </div>
+
+      <nav class="article__end" aria-label="文章导航">
+        <a href="../archive.html">← 全部文字</a>
+        <span class="pager">
+          <a href="../write.html">打开写作台 →</a>
+        </span>
+      </nav>
+    </footer>
+
+  </article>
+
+  <aside class="article-toc" data-toc aria-label="本篇目录"></aside>
+</div>
+
+<div data-site-footer></div>
+
+<script src="../assets/index.js"></script>
+<script src="../assets/render.js"></script>
+</body>
+</html>

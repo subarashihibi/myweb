@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!-- ==========================================================================
+     文章模板 · 复制本文件为新文章
+     --------------------------------------------------------------------------
+     命名规则：全小写、用连字符，文件名即网址。
+       例：kant-copernican-turn.html   →   posts/kant-copernican-turn.html
+     新建后需要改动的四处，都在下面用「⟵ 改这里」标出：
+       1. <title> 与 <meta name="description">
+       2. .article__meta 中的日期、主题、标签
+       3. 正文（.article__body 内部）
+       4. 文末的上一篇 / 下一篇链接
+     最后别忘了在 assets/index.js 的 SITE.posts 最前面登记一条记录。
+     ========================================================================== -->
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>在此填写文章标题 · Rosa's Cafe</title>                                        <!-- ⟵ 改这里 -->
+<meta name="description" content="在此填写一句话提要，会出现在搜索结果与分享卡片中。"> <!-- ⟵ 改这里 -->
+<meta name="author" content="站长">
+<link rel="stylesheet" href="../assets/site.css">
+<script>
+  try {
+    var saved = localStorage.getItem("ink-paper-theme");
+    if (saved === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  } catch (e) {}
+</script>
+</head>
+<body data-page="post">
+
+<div data-site-header></div>
+
+<div class="article-shell">
+  <article class="article">
+
+    <header class="article__head">
+      <!-- ⟵ 改这里：日期用英文格式（如 Mar 1, 2026，须与 index.js 的 YYYY-MM-DD 对应）；
+           主题只有一个；标签可多枚；%XX 是中文的 URL 编码。
+           字数由 assets/render.js 依 index.js 里的 words 字段自动填入，无需手写。 -->
+      <p class="meta article__meta">
+        <span class="meta__date">Mar 1, 2026</span>
+        <span class="meta__sep">·</span>
+        <a class="chip" href="../topics.html?c=%E5%BD%A2%E8%80%8C%E4%B8%8A%E5%AD%A6">形而上学</a>
+        <a class="chip" href="../topics.html?t=%E6%A0%87%E7%AD%BE%E4%B8%80">#标签一</a>
+        <span class="meta__sep">|</span>
+        <span class="post-meta-item" data-word-count></span>
+      </p>
+
+      <h1 class="article__title">在此填写文章标题</h1>
+
+      <!-- 提要：两到四句，写清「问题是什么、这篇走到哪一步」。可整段删除。 -->
+      <p class="article__abstract">
+        提要：这篇札记处理的是什么问题，沿着哪条线索推进，最后落在什么地方。
+      </p>
+
+      <hr>
+    </header>
+
+    <div class="article__body" id="article-body">
+
+      <!-- 可选：题词。整块删除即可。 -->
+      <blockquote class="epigraph">
+        <p>此处放一句引文。</p>
+        <p class="epigraph__source">—— 出处</p>
+      </blockquote>
+
+      <p>
+        开头段落。建议直接进入问题本身，不要写「自古以来」这类铺垫。
+        正文中的书名用《》，关键术语第一次出现时在括号里附原文，如 <em>ousia</em>（实体）。
+      </p>
+
+      <h2 id="first-heading">小节标题一</h2>   <!-- 目录依据 id，写成英文短标签 -->
+
+      <p>段落。</p>
+
+      <h3>更小的一节</h3>
+      <p>段落。三级标题也会进入右侧目录。</p>
+
+      <blockquote>
+        <p>一段较长的引文，可以跨行。中译为主，必要时在括号内附原文。</p>
+        <cite>作者《书名》页码或编码</cite>
+      </blockquote>
+
+      <ul>
+        <li>无序要点，用于并列的条件或层次。</li>
+        <li>也可以写成分点式论证。</li>
+      </ul>
+
+      <!-- 表格需要手动写；适合对比两种立场或列出论证步骤 -->
+      <table>
+        <caption>表题（可省略）</caption>
+        <thead>
+          <tr><th>列一</th><th>列二</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>内容</td><td>内容</td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        脚注用 <a class="fn-ref" href="#fn1">[1]</a> 这样的上标引用，注释正文写在文末的
+        <code>&lt;section class="footnotes"&gt;</code> 里。
+      </p>
+
+      <div class="notice">
+        <p class="notice__title">要点 / 存疑 / 待办</p>
+        <p>这个方框用来突出一个关键主张或一处尚未解决的问题，适合偶尔使用。</p>
+      </div>
+
+      <hr>   <!-- 单独一行的 hr 会显示为一枚花星分隔符 -->
+
+      <p>结尾段落。收束时不必给结论，把问题留在敞开的状态往往更诚实。</p>
+
+      <section class="footnotes">
+        <h2 class="footnotes__title">注释</h2>
+        <ol>
+          <li id="fn1">
+            注释正文。
+            <a class="footnote-back" href="#article-body">↩</a>
+          </li>
+        </ol>
+      </section>
+
+    </div>
+
+    <footer class="article__foot">
+      <div class="article__tags">
+        <a class="chip" href="../topics.html?t=%E6%A0%87%E7%AD%BE%E4%B8%80">#标签一</a>
+      </div>
+
+      <!-- ⟵ 改这里：与相邻两篇互链。没有就删掉整段 .pager -->
+      <nav class="article__end" aria-label="文章导航">
+        <a href="../archive.html">← 全部文字</a>
+        <span class="pager">
+          <a href="上一篇的文件名.html">← 上一篇：标题</a>
+          <a href="下一篇的文件名.html">下一篇：标题 →</a>
+        </span>
+      </nav>
+    </footer>
+
+  </article>
+
+  <aside class="article-toc" data-toc aria-label="本篇目录"></aside>
+</div>
+
+<div data-site-footer></div>
+
+<script src="../assets/index.js"></script>
+<script src="../assets/render.js"></script>
+</body>
+</html>
